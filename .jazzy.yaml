@@ -1,0 +1,7 @@
+# ValidateKit document generator jazzy settings
+
+copyright: Copyright 2019 Redwerk
+author: Volodymyr Sakhan
+xcodebuild_arguments: [-target, ValidateKit-iOS]
+clean: true
+output: ./Documentation
