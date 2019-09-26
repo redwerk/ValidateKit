@@ -1,7 +1,7 @@
 //
 //  The MIT License (MIT)
 //
-//  Copyright (c) 2019 Redwerk
+//  Copyright (c) 2019 Redwerk info@redwerk.com
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -32,13 +32,14 @@ class ValidateKitTests: XCTestCase {
     ]
     
     func testExample() {
-        let user = User(id: 123,
-                        name: "UserName",
-                        email: "blabla@gmail.com")
+        let user = User(id: 99,
+                        name: "abc",
+                        email: "blabla@gmail.com",
+                        age: 1,
+                        description: "bla lbaa dan djfnif ndifgn difngiudng iudnfg iundgiu n",
+                        phone: "+380 (96) 174-45-45")
         
-        let result = user.validate()
-        
-        XCTAssertTrue(result.isValid)
+        XCTAssertNoThrow(XCTAssertNoThrow(try user.validate()))
     }
     
 }

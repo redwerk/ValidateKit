@@ -1,7 +1,7 @@
 //
 //  The MIT License (MIT)
 //
-//  Copyright (c) 2019 Redwerk
+//  Copyright (c) 2019 Redwerk info@redwerk.com
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -25,32 +25,13 @@
 import Foundation
 
 public protocol Validatable {
-    var needValidate: [AnyKeyPath: [ValidationRule]] { get }
-    func validate() -> ValidationResult
+    static func conditions() throws -> Conditions<Self>
 }
 
-public extension Validatable {
-    
-    func validate() -> ValidationResult {
-        var errors: [ValidationKeyPathError] = []
-        
-        for (keyPath, rules) in needValidate {
-            let value = self[keyPath: keyPath]
-            
-            for rule in rules {
-                let ruleResult = rule.validate(value, keyPath: keyPath)
-                
-                if case .invalid(let ruleErrors) = ruleResult {
-                    errors.append(contentsOf: ruleErrors)
-                }
-            }
-        }
-        
-        if errors.isEmpty {
-            return .valid
-        }
-        
-        return .invalid(errors)
+extension Validatable {
+
+    public func validate() throws {
+        try Self.conditions().check(self)
     }
     
 }

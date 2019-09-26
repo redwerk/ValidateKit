@@ -1,7 +1,7 @@
 //
 //  The MIT License (MIT)
 //
-//  Copyright (c) 2019 Redwerk
+//  Copyright (c) 2019 Redwerk info@redwerk.com
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,27 @@
 
 import Foundation
 
-public protocol ValidationRule {
-    var error: ValidationError { get }
-    func validate(_ value: Any?, keyPath: AnyKeyPath) -> ValidationResult
+public struct ValidationRule<ValueType> {
+        
+    private let closure: (ValueType) throws -> Void
+    
+    public var info: String
+    
+    public init(_ info: String, _ closure: @escaping (ValueType) throws -> Void) {
+        self.info = info
+        self.closure = closure
+    }
+    
+    public func validate(_ value: ValueType) throws {
+        try closure(value)
+    }
+        
+}
+
+extension ValidationRule: CustomStringConvertible {
+    
+    public var description: String {
+        return info
+    }
+    
 }

@@ -1,7 +1,7 @@
 //
 //  The MIT License (MIT)
 //
-//  Copyright (c) 2019 Redwerk
+//  Copyright (c) 2019 Redwerk info@redwerk.com
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -24,29 +24,42 @@
 
 import Foundation
 
-public final class ValidationRequiredRule<T>: ValidationRule {
+public protocol ValidationOptional {
+    associatedtype WrappedType
+    var wrapped: WrappedType? { get }
+}
+
+extension Optional: ValidationOptional {
+    public typealias WrappedType = Wrapped
     
-    public init() {}
-    
-    public func validate(_ value: Any?, keyPath: AnyKeyPath) -> ValidationResult {
-        guard value is T else {
-            return .invalid([
-                ValidationKeyPathError(keyPath: keyPath,
-                                       validationError: ValidationError.mismatchTypes)
-                ])
+    public var wrapped: Wrapped? {
+        switch self {
+        case .none:
+            return nil
+        case .some(let wrapped):
+            return wrapped
         }
-        
-        return value != nil ?
-            .valid :
-            .invalid([ValidationKeyPathError(keyPath: keyPath, validationError: error)])
+    }
+}
+
+extension ValidationRule where ValueType: ValidationOptional {
+    
+    public static var `nil`: ValidationRule<ValueType.WrappedType?> {
+        return ValidationNilRule(ValueType.WrappedType.self).rule()
     }
     
 }
 
-extension ValidationRequiredRule {
+private struct ValidationNilRule<T>: ValidationRuleFactory {
     
-    public var error: ValidationError {
-        return .custom(message: "This value is required")
+    var info: String = "is nil"
+
+    init(_ type: T.Type) {}
+
+    func validate(_ value: T?) throws {
+        if value != nil {
+            throw ValidationError.custom(message: "is not nil")
+        }
     }
     
 }

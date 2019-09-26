@@ -4,7 +4,7 @@
 
 <p align="center">
    <a href="https://developer.apple.com/swift/">
-      <img src="https://img.shields.io/badge/Swift-5.0-orange.svg?style=flat" alt="Swift 5.0">
+      <img src="https://img.shields.io/badge/Swift-4.2-orange.svg?style=flat" alt="Swift 4.2">
    </a>
    <a href="http://cocoapods.org/pods/ValidateKit">
       <img src="https://img.shields.io/cocoapods/v/ValidateKit.svg?style=flat" alt="Version">
@@ -23,7 +23,7 @@
 # ValidateKit
 
 <p align="center">
-ℹ️ Short description of ValidateKit
+ValidateKit is a framework for validating data of model.
 </p>
 
 ## Features
@@ -44,6 +44,10 @@ it, simply add the following line to your Podfile:
 ```bash
 pod 'ValidateKit'
 ```
+or
+```bash
+pod 'ValidateKit', :git => 'https://github.com/redwerk/ValidateKit.git', :branch => 'master'
+```
 
 ### Carthage
 
@@ -52,7 +56,7 @@ pod 'ValidateKit'
 To integrate ValidateKit into your Xcode project using Carthage, specify it in your `Cartfile`:
 
 ```ogdl
-github "Volodymyr Sakhan/ValidateKit"
+github "redwerk/ValidateKit"
 ```
 
 Run `carthage update` to build the framework and drag the built `ValidateKit.framework` into your Xcode project. 
@@ -65,7 +69,7 @@ To integrate using Apple's [Swift Package Manager](https://swift.org/package-man
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/VolodymyrSakhan/ValidateKit.git", from: "1.0.0")
+    .package(url: "https://github.com/redwerk/ValidateKit.git", from: "1.0.0")
 ]
 ```
 
@@ -75,7 +79,9 @@ If you prefer not to use any of the aforementioned dependency managers, you can 
 
 ## Usage
 
-ℹ️ Describe the usage of your Kit
+```swift
+import ValidateKit
+```
 
 ## Contributing
 Contributions are very welcome 🙌
