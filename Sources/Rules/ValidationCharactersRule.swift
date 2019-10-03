@@ -26,26 +26,43 @@ import Foundation
 
 extension ValidationRule where ValueType == String {
     
-    public static var email: ValidationRule<ValueType> {
-        return ValidationEmailRule().rule()
+    public static var alphanumericsCharacters: ValidationRule<String> {
+        return characters(.alphanumerics)
+    }
+    
+    public static var numericsCharacters: ValidationRule<String> {
+        return characters(CharacterSet(charactersIn: "0123456789"))
+    }
+    
+    public static var phoneCharacters: ValidationRule<String> {
+        return characters(CharacterSet(charactersIn: "+-0123456789() "))
+    }
+    
+    public static func characters(_ characterSet: CharacterSet) -> ValidationRule<String> {
+        return ValidationCharactersRule(characterSet).rule()
     }
     
 }
 
-private struct ValidationEmailRule: ValidationRuleFactory {
+private struct ValidationCharactersRule: ValidationRuleFactory {
     
-    var info: String = "is a valid email"
-    
-    private let regex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
-    
-    public init() {}
-    
-    public func validate(_ value: String) throws {
-        let test = NSPredicate(format: "SELF MATCHES %@", regex)
-        let result = test.evaluate(with: value)
-        
-        guard result else {
-            throw ValidationError.custom(message: "is not a valid email address")
+    var info: String {
+        // TODO: list of characters
+        return "in set of characters"
+    }
+
+    private let characterSet: CharacterSet
+    private var invertedCharacterSet: CharacterSet {
+        return characterSet.inverted
+    }
+
+    init(_ characterSet: CharacterSet) {
+        self.characterSet = characterSet
+    }
+
+    func validate(_ value: String) throws {
+        if let characterRange = value.rangeOfCharacter(from: invertedCharacterSet) {
+            throw ValidationError.custom(message: "string contains unavailable character `\(value[characterRange])`")
         }
     }
     

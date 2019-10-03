@@ -1,7 +1,7 @@
 //
 //  The MIT License (MIT)
 //
-//  Copyright (c) 2019 Redwerk
+//  Copyright (c) 2019 Redwerk info@redwerk.com
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -28,26 +28,32 @@ import ValidateKit
 struct User {
     let id: Int
     let name: String
-    let email: String
-//    let address: Location
+    let email: String?
+    let age: Int
+    let description: String
+    let hobbies: [String] = ["a", "b", "c"]
+    let phone: String
 }
 
 extension User: Validatable {
     
-    var needValidate: [AnyKeyPath: [ValidationRule]] {
-        return [
-            \User.id: [
-                ValidationRequiredRule<Int>()
-            ],
-            \User.name: [
-                ValidationRequiredRule<String>(),
-                ValidationLengthRule<String>(4...17)
-            ],
-            \User.email: [
-                ValidationRequiredRule<String>(),
-                ValidationEmailRule<String>()
-            ]
-        ]
+    private static var nameCharacterSet: CharacterSet {
+        var characterSet = CharacterSet()
+        characterSet.formUnion(.lowercaseLetters)
+        characterSet.formUnion(.uppercaseLetters)
+        return characterSet
+    }
+    
+    static func conditions() throws -> Conditions<User> {
+        var conditions = Conditions(Self.self)
+        conditions.add(\.id, "id", .range(0...100) || .range(10000...))
+        conditions.add(\.email, "email", .email && !.nil)
+        conditions.add(\.age, "age", .range(1...))
+        conditions.add(\.name, "name", .count(3...20) && .characters(nameCharacterSet))
+        conditions.add(\.description, "description length", .count(30...))
+        conditions.add(\.hobbies, "hobbies", !.empty)
+        conditions.add(\.phone, "phone", .phoneCharacters)
+        return conditions
     }
     
 }

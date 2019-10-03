@@ -1,7 +1,7 @@
 //
 //  The MIT License (MIT)
 //
-//  Copyright (c) 2019 Redwerk
+//  Copyright (c) 2019 Redwerk info@redwerk.com
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -24,19 +24,17 @@
 
 import Foundation
 
-public enum ValidationResult {
-    case valid
-    case invalid([ValidationKeyPathError])
+public protocol ValidationRuleFactory {
+    associatedtype Value
+    
+    var info: String { get }
+    func validate(_ value: Value) throws
 }
 
-extension ValidationResult {
-    
-    public var isValid: Bool {
-        if case .valid = self {
-            return true
-        }
-        
-        return false
+extension ValidationRuleFactory {
+
+    public func rule() -> ValidationRule<Value> {
+        return ValidationRule(info, validate)
     }
     
 }
