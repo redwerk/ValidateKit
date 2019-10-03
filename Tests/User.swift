@@ -26,13 +26,13 @@ import Foundation
 import ValidateKit
 
 struct User {
-    let id: Int
-    let name: String
-    let email: String?
-    let age: Int
-    let description: String
-    let hobbies: [String] = ["a", "b", "c"]
-    let phone: String
+    var id: Int
+    var name: String
+    var email: String?
+    var age: Int
+    var description: String
+    var hobbies: [String] = ["a", "b", "c"]
+    var phone: String
 }
 
 extension User: Validatable {
@@ -45,7 +45,7 @@ extension User: Validatable {
     }
     
     static func conditions() throws -> Conditions<User> {
-        var conditions = Conditions(Self.self)
+        var conditions = Conditions(User.self)
         conditions.add(\.id, "id", .range(0...100) || .range(10000...))
         conditions.add(\.email, "email", .email && !.nil)
         conditions.add(\.age, "age", .range(1...))
