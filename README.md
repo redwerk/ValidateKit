@@ -26,9 +26,14 @@
 ValidateKit is a framework for validating data of model.
 </p>
 
-## Features
+<!--## Features-->
+<!--- [x] ℹ️ Add ValidateKit features-->
 
-- [x] ℹ️ Add ValidateKit features
+## Requirements
+
+iOS 8.0+ / macOS 10.10+ / tvOS 9.0+ / watchOS 2.0+
+Xcode 10.0+
+Swift 4.2+
 
 ## Example
 
@@ -81,6 +86,49 @@ If you prefer not to use any of the aforementioned dependency managers, you can 
 
 ```swift
 import ValidateKit
+
+struct User {
+  var id: Int
+  var name: String
+  var email: String?
+  var age: Int
+  var about: String
+  var hobbies: [String] = ["a", "b", "c"]
+  var phone: String
+}
+
+extension User: Validatable {
+
+  private static var nameCharacterSet: CharacterSet {
+    var characterSet = CharacterSet()
+    characterSet.formUnion(.lowercaseLetters)
+    characterSet.formUnion(.uppercaseLetters)
+    return characterSet
+  }
+
+  static func conditions() throws -> Conditions<User> {
+    var conditions = Conditions(User.self)
+    conditions.add(\.id, "id", .range(0...100) || .range(10000...))
+    conditions.add(\.email, "email", .email && !.nil)
+    conditions.add(\.age, "age", .range(1...))
+    conditions.add(\.name, "name", .count(3...20) && .characters(nameCharacterSet))
+    conditions.add(\.about, "description length", .count(30...))
+    conditions.add(\.hobbies, "hobbies", !.empty)
+    conditions.add(\.phone, "phone", .phoneCharacters)
+    return conditions
+  }
+  
+}
+
+// ...
+
+let user = User(...)
+
+do {
+    try user.validate()
+} catch let error {
+    print(error.localizedDescription)
+}
 ```
 
 ## Contributing
