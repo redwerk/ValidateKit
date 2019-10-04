@@ -493,6 +493,12 @@ class ValidateKitTests: XCTestCase {
                         hobbies: ["sport"],
                         phone: "+380 (96) 174-45-45")
         
+        do {
+            try user.validate()
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        
         XCTAssertNoThrow(try user.validate())
     }
     
