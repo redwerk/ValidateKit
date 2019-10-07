@@ -26,14 +26,32 @@
 ValidateKit is a framework for validating data of model.
 </p>
 
-<!--## Features-->
-<!--- [x] ℹ️ Add ValidateKit features-->
+## Features
+- [x] Validation rules:
+  - [x] Custom rule/throw/value
+  - [x] Range (n...m, n..., ...m)
+  - [x] Count (n...m, n..., ...m, min, max, empty)
+  - [x] Nil
+  - [x] CharacterSet (alphanumerics, numerics, phone, custom set)
+  - [x] Email
+  - [ ] URL
+  - [ ] Payment card
+  - [ ] Contains
+- [x] Operations with rules
+  - [x] and `&&`
+  - [x] or `||`
+  - [x] not `!`
+- [x] An open protocol-oriented implementation
+- [x] Comprehensive test coverage
+- [ ] Code documentation
 
 ## Requirements
 
-iOS 8.0+ / macOS 10.10+ / tvOS 9.0+ / watchOS 2.0+
-Xcode 10.0+
-Swift 4.2+
+`iOS 8.0+ / macOS 10.10+ / tvOS 9.0+ / watchOS 2.0+`
+
+`Xcode 10.0+`
+
+`Swift 4.2+`
 
 ## Example
 
@@ -60,8 +78,8 @@ pod 'ValidateKit', :git => 'https://github.com/redwerk/ValidateKit.git', :branch
 
 To integrate ValidateKit into your Xcode project using Carthage, specify it in your `Cartfile`:
 
-```ogdl
-github "redwerk/ValidateKit"
+```bash
+github 'redwerk/ValidateKit'
 ```
 
 Run `carthage update` to build the framework and drag the built `ValidateKit.framework` into your Xcode project. 
@@ -85,6 +103,7 @@ If you prefer not to use any of the aforementioned dependency managers, you can 
 ## Usage
 
 ```swift
+import Foundation
 import ValidateKit
 
 struct User {
