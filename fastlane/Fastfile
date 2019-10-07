@@ -17,7 +17,7 @@ platform :ios do
     # Retrieve Version from options
     version = options[:version]
     # Increment Version
-    increment(version: version)
+#    increment(version: version)
     # Add Git Tag
     add_git_tag(tag: version)
     # Push Git Tag
@@ -33,10 +33,10 @@ platform :ios do
     # Retrieve Version from options
     version = options[:version]
     # Set Podspec version
-#    version_bump_podspec(
-#      path: "ValidateKit.podspec", 
-#      version_number: version
-#    )
+    version_bump_podspec(
+      path: "ValidateKit.podspec", 
+      version_number: version
+    )
     # Set Framework plist version
     set_info_plist_value(
       path: "Configs/ValidateKit.plist", 
@@ -64,7 +64,7 @@ platform :ios do
           "Example/Resources/Info.plist"
         ],
         message: "ValidateKit Version #{version} 🚀"
-    )
+   )
   end
 
   desc "Runs tests"
