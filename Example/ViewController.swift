@@ -48,7 +48,30 @@ class ViewController: UIViewController {
     /// View did load
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.view.backgroundColor = .white
+        
+        var event = Event(id: UUID.init().uuidString,
+                          startDate: Date(), endDate: Date().addingTimeInterval(60 * 60),
+                          subject: "Temp Event",
+                          author: nil,
+                          cost: 100)
+        
+        do {
+            try event.validate()
+        } catch let error {
+            print(error)
+        }
+        
+        // check `Invalid start or end date` error
+        
+        event.endDate = Date().addingTimeInterval(-200)
+        
+        do {
+            try event.validate()
+        } catch let error {
+            print(error)
+        }
     }
     
     /// LoadView
