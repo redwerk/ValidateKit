@@ -33,10 +33,10 @@ platform :ios do
     # Retrieve Version from options
     version = options[:version]
     # Set Podspec version
-    version_bump_podspec(
-      path: "ValidateKit.podspec", 
-      version_number: version
-    )
+#    version_bump_podspec(
+#      path: "ValidateKit.podspec", 
+#      version_number: version
+#    )
     # Set Framework plist version
     set_info_plist_value(
       path: "Configs/ValidateKit.plist", 
